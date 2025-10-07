@@ -29,6 +29,18 @@ export default function ProjectCard({
   const [isLoadingReadme, setIsLoadingReadme] = useState(false);
   const [readmePreview, setReadmePreview] = useState<string | null>(null);
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile on component mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Auto-fetch README preview if no description
   useEffect(() => {
@@ -114,7 +126,7 @@ export default function ProjectCard({
         {/* Topics */}
         {topics && topics.length > 0 && (
           <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-            {topics.slice(0, window.innerWidth < 640 ? 2 : 3).map((topic) => (
+            {topics.slice(0, isMobile ? 2 : 3).map((topic) => (
               <span
                 key={topic}
                 className="text-xs px-2 py-1 bg-foreground/5 rounded-full text-foreground/70 leading-none"
@@ -122,9 +134,9 @@ export default function ProjectCard({
                 {topic}
               </span>
             ))}
-            {topics.length > (window.innerWidth < 640 ? 2 : 3) && (
+            {topics.length > (isMobile ? 2 : 3) && (
               <span className="text-xs px-2 py-1 bg-foreground/5 rounded-full text-foreground/70 leading-none">
-                +{topics.length - (window.innerWidth < 640 ? 2 : 3)}
+                +{topics.length - (isMobile ? 2 : 3)}
               </span>
             )}
           </div>

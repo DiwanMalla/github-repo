@@ -22,6 +22,18 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
   const [sortedRepos, setSortedRepos] = useState<Repository[]>(repos);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile on component mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleSortChange = (newSortBy: SortOption) => {
     setSortBy(newSortBy);
@@ -196,7 +208,7 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
                     {Array.from({ length: totalPages }, (_, i) => i + 1)
                       .filter(page => {
                         // On mobile, show fewer pages
-                        if (window.innerWidth < 640) {
+                        if (isMobile) {
                           return page === 1 || 
                                  page === totalPages || 
                                  page === currentPage ||
