@@ -82,12 +82,12 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
     }
   };
   return (
-    <section className="py-16 px-4 bg-muted/30 dark:bg-muted/10">
+    <section id="projects" className="py-12 sm:py-16 px-4 bg-muted/30 dark:bg-muted/10">
       <div className="container max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">All Projects</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">All Projects</h2>
+          <p className="text-muted-foreground text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed">
             A complete showcase of my work spanning web applications, mobile
             apps, AI solutions, and e-commerce platforms. Each project
             demonstrates different technologies and innovative problem-solving
@@ -95,46 +95,50 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
           </p>
 
           {/* Sort Controls */}
-          <div className="flex flex-wrap justify-center gap-2 mt-8">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6 sm:mt-8">
             {(
               ["recent", "alphabetical", "stars", "created"] as SortOption[]
             ).map((option) => (
               <button
                 key={option}
                 onClick={() => handleSortChange(option)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-colors ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border transition-colors text-xs sm:text-sm font-medium min-h-[40px] ${
                   sortBy === option
                     ? "bg-foreground text-background border-foreground"
-                    : "border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5"
+                    : "border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 active:bg-foreground/10"
                 }`}
               >
                 {getSortIcon(option)}
-                {getSortLabel(option)}
+                <span className="whitespace-nowrap">{getSortLabel(option)}</span>
               </button>
             ))}
           </div>
 
           {/* Results Counter and Per-Page Selector */}
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
-            <p className="text-muted-foreground text-sm">
-              Showing {startIndex + 1}-{Math.min(endIndex, sortedRepos.length)} of {sortedRepos.length} repositories • Sorted by {getSortLabel(sortBy).toLowerCase()}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 mt-4 sm:mt-6">
+            <p className="text-muted-foreground text-xs sm:text-sm text-center sm:text-left">
+              <span className="block sm:inline">Showing {startIndex + 1}-{Math.min(endIndex, sortedRepos.length)} of {sortedRepos.length} repositories</span>
+              <span className="hidden sm:inline"> • </span>
+              <span className="block sm:inline">Sorted by {getSortLabel(sortBy).toLowerCase()}</span>
             </p>
             
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2 text-xs sm:text-sm">
               <span className="text-muted-foreground">Show:</span>
-              {[6, 12, 20, 30].map((count) => (
-                <button
-                  key={count}
-                  onClick={() => handleItemsPerPageChange(count)}
-                  className={`px-3 py-1 rounded-full border transition-colors ${
-                    itemsPerPage === count
-                      ? 'bg-foreground text-background border-foreground'
-                      : 'border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5'
-                  }`}
-                >
-                  {count}
-                </button>
-              ))}
+              <div className="flex gap-1 sm:gap-2">
+                {[6, 12, 20, 30].map((count) => (
+                  <button
+                    key={count}
+                    onClick={() => handleItemsPerPageChange(count)}
+                    className={`px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full border transition-colors min-w-[36px] sm:min-w-[40px] ${
+                      itemsPerPage === count
+                        ? 'bg-foreground text-background border-foreground'
+                        : 'border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 active:bg-foreground/10'
+                    }`}
+                  >
+                    {count}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -152,7 +156,7 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
         ) : /* Projects Grid */
         currentRepos.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {currentRepos.map((repo) => (
                 <ProjectCard
                   key={repo.id}
@@ -169,58 +173,74 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-12">
-                {/* Previous Button */}
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="flex items-center gap-2 px-4 py-2 border border-foreground/20 rounded-lg hover:bg-foreground/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <ChevronLeft size={16} />
-                  Previous
-                </button>
-
-                {/* Page Numbers */}
-                <div className="flex gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1)
-                    .filter(page => {
-                      // Show first, last, current, and adjacent pages
-                      return page === 1 || 
-                             page === totalPages || 
-                             Math.abs(page - currentPage) <= 1;
-                    })
-                    .map((page, index, array) => {
-                      const showEllipsis = index > 0 && page - array[index - 1] > 1;
-                      
-                      return (
-                        <div key={page} className="flex items-center gap-1">
-                          {showEllipsis && (
-                            <span className="px-2 text-muted-foreground">...</span>
-                          )}
-                          <button
-                            onClick={() => handlePageChange(page)}
-                            className={`w-10 h-10 rounded-lg border transition-colors ${
-                              currentPage === page
-                                ? 'bg-foreground text-background border-foreground'
-                                : 'border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5'
-                            }`}
-                          >
-                            {page}
-                          </button>
-                        </div>
-                      );
-                    })}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-2 mt-8 sm:mt-12">
+                {/* Mobile: Page info */}
+                <div className="sm:hidden text-xs text-muted-foreground mb-2">
+                  Page {currentPage} of {totalPages}
                 </div>
+                
+                <div className="flex items-center gap-2">
+                  {/* Previous Button */}
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 border border-foreground/20 rounded-lg hover:bg-foreground/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm min-h-[44px]"
+                  >
+                    <ChevronLeft size={16} />
+                    <span className="hidden sm:inline">Previous</span>
+                    <span className="sm:hidden">Prev</span>
+                  </button>
 
-                {/* Next Button */}
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="flex items-center gap-2 px-4 py-2 border border-foreground/20 rounded-lg hover:bg-foreground/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Next
-                  <ChevronRight size={16} />
-                </button>
+                  {/* Page Numbers - Simplified for mobile */}
+                  <div className="flex gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                      .filter(page => {
+                        // On mobile, show fewer pages
+                        if (window.innerWidth < 640) {
+                          return page === 1 || 
+                                 page === totalPages || 
+                                 page === currentPage ||
+                                 (Math.abs(page - currentPage) === 1 && totalPages <= 7);
+                        }
+                        // Desktop: show more pages
+                        return page === 1 || 
+                               page === totalPages || 
+                               Math.abs(page - currentPage) <= 1;
+                      })
+                      .map((page, index, array) => {
+                        const showEllipsis = index > 0 && page - array[index - 1] > 1;
+                        
+                        return (
+                          <div key={page} className="flex items-center gap-1">
+                            {showEllipsis && (
+                              <span className="px-1 sm:px-2 text-muted-foreground text-xs sm:text-sm">...</span>
+                            )}
+                            <button
+                              onClick={() => handlePageChange(page)}
+                              className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg border transition-colors text-xs sm:text-sm font-medium ${
+                                currentPage === page
+                                  ? 'bg-foreground text-background border-foreground'
+                                  : 'border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 active:bg-foreground/10'
+                              }`}
+                            >
+                              {page}
+                            </button>
+                          </div>
+                        );
+                      })}
+                  </div>
+
+                  {/* Next Button */}
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 border border-foreground/20 rounded-lg hover:bg-foreground/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm min-h-[44px]"
+                  >
+                    <span className="hidden sm:inline">Next</span>
+                    <span className="sm:hidden">Next</span>
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
               </div>
             )}
           </>
@@ -233,14 +253,14 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
         )}
 
         {/* View More Link */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-8 sm:mt-12">
           <a
             href="https://github.com/DiwanMalla?tab=repositories"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3 border-2 border-foreground rounded-full hover:bg-foreground hover:text-background transition-colors font-medium"
+            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 border-2 border-foreground rounded-full hover:bg-foreground hover:text-background transition-colors font-medium text-sm sm:text-base min-h-[48px] w-full sm:w-auto max-w-sm sm:max-w-none"
           >
-            View All Projects on GitHub
+            <span>View All Projects on GitHub</span>
           </a>
         </div>
       </div>
