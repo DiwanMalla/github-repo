@@ -59,24 +59,48 @@ A modern, responsive portfolio showcasing my projects and skills as a Full-Stack
 
 ### Installation
 
-1. **Clone the repository**
+```bash
+# 1. Clone the repository
+git clone https://github.com/DiwanMalla/github-repo.git
+cd github-repo
+
+# 2. Install dependencies
+npm install
+
+# 3. Set up environment variables (recommended)
+cp .env.local.example .env.local
+# Edit .env.local and add your GitHub token (see below)
+
+# 4. Run the development server
+npm run dev
+```
+
+### GitHub API Setup (Recommended)
+
+To avoid API rate limiting, set up a GitHub Personal Access Token:
+
+1. **Create a Token:**
+   - Go to [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
+   - Click "Generate new token (classic)"
+   - Select scopes: `public_repo` (for public repositories)
+   - Copy the generated token
+
+2. **Configure Environment:**
    ```bash
-   git clone https://github.com/DiwanMalla/github-repo.git
-   cd github-repo
+   # In your .env.local file
+   NEXT_PUBLIC_GITHUB_TOKEN=your_github_token_here
+   NEXT_PUBLIC_GITHUB_USERNAME=DiwanMalla  # Optional: change username
    ```
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+3. **Rate Limits:**
+   - **Without token:** 60 requests/hour
+   - **With token:** 5,000 requests/hour
 
-3. **Run development server**
-   ```bash
-   npm run dev
-   ```
+> **Note:** The portfolio works without a token using fallback data, but adding one provides live GitHub integration.
 
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+### Development
+
+```
 
 ## 📁 Project Structure
 

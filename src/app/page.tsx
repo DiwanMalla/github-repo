@@ -9,6 +9,20 @@ async function getRepositories() {
     return await GitHubService.fetchAllRepositories();
   } catch (error) {
     console.error('Failed to fetch repositories:', error);
+    
+    // Log specific error messages
+    if (error instanceof Error) {
+      if (error.message.includes('rate limit')) {
+        console.warn('GitHub API rate limit exceeded. Using fallback projects. Consider adding a GitHub token to .env.local for higher rate limits.');
+      } else if (error.message.includes('Network error') || error.message.includes('fetch')) {
+        console.warn('Network error while fetching GitHub repositories. Using fallback projects. Please check your internet connection.');
+      } else if (error.message.includes('timed out')) {
+        console.warn('GitHub API request timed out. Using fallback projects. The API might be temporarily unavailable.');
+      } else {
+        console.warn('GitHub API error:', error.message, 'Using fallback projects.');
+      }
+    }
+    
     return [];
   }
 }

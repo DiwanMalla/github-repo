@@ -36,30 +36,34 @@ export default function ProjectCard({
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 640);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Auto-fetch README preview if no description
-  useEffect(() => {
+  // Fetch README preview only when user shows interest
+  const fetchReadmePreview = async () => {
     if (!description && !readmePreview && !isLoadingPreview) {
       setIsLoadingPreview(true);
-      GitHubService.fetchReadmePreview(name)
-        .then((preview) => {
-          setReadmePreview(preview);
-        })
-        .catch(() => {
-          setReadmePreview(null);
-        })
-        .finally(() => {
-          setIsLoadingPreview(false);
-        });
+      try {
+        const preview = await GitHubService.fetchReadmePreview(name);
+        setReadmePreview(preview);
+      } catch {
+        setReadmePreview(null);
+      } finally {
+        setIsLoadingPreview(false);
+      }
     }
-  }, [description, name, readmePreview, isLoadingPreview]);
+  };
 
   const handleReadMoreClick = async () => {
+    // First fetch preview if needed
+    if (!description && !readmePreview) {
+      await fetchReadmePreview();
+    }
+    
+    // Then fetch full content for modal
     if (!readmeContent) {
       setIsLoadingReadme(true);
       try {
@@ -82,25 +86,25 @@ export default function ProjectCard({
           <h3 className="text-lg sm:text-xl font-semibold mb-2 group-hover:text-foreground/80 transition-colors leading-tight">
             {name}
           </h3>
-          <div className="text-muted-foreground text-sm line-clamp-2 min-h-[2.5rem]">
+                    <div className="text-muted-foreground text-sm line-clamp-2 min-h-[2.5rem]">
             {description ? (
               <p className="leading-relaxed">{description}</p>
             ) : (
               <div>
                 {isLoadingPreview ? (
                   <div className="flex items-center gap-2 text-muted-foreground/60">
-                    <Loader2 size={14} className="animate-spin" />
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     <span className="text-xs">Loading description...</span>
                   </div>
                 ) : readmePreview ? (
                   <p className="italic leading-relaxed">{readmePreview}</p>
                 ) : (
-                  <p className="text-muted-foreground/60 text-xs">No description available</p>
+                  <p className="text-muted-foreground/60 text-xs">Click &quot;Read More&quot; to view project details</p>
                 )}
               </div>
             )}
           </div>
-          
+
           {/* Read More Button - Show if no description or if we have README content */}
           {(!description || readmePreview) && (
             <button
@@ -110,13 +114,15 @@ export default function ProjectCard({
             >
               {isLoadingReadme ? (
                 <>
-                  <Loader2 size={12} className="animate-spin" />
+                  <Loader2 className="w-3 h-3 animate-spin" />
                   <span>Loading...</span>
                 </>
               ) : (
                 <>
-                  <BookOpen size={12} />
-                  <span>{readmePreview ? 'Read Full README' : 'Read More'}</span>
+                  <BookOpen className="w-3 h-3" />
+                  <span>
+                    {readmePreview ? "Read Full README" : "Read More"}
+                  </span>
                 </>
               )}
             </button>
@@ -148,11 +154,13 @@ export default function ProjectCard({
             {language && (
               <span className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-blue-500"></span>
-                <span className="truncate max-w-[80px] sm:max-w-none">{language}</span>
+                <span className="truncate max-w-[80px] sm:max-w-none">
+                  {language}
+                </span>
               </span>
             )}
             <span className="flex items-center gap-1">
-              <Star size={12} className="sm:size-14" />
+              <Star className="w-3 h-3 sm:w-4 sm:h-4" />
               <span>{stargazers_count}</span>
             </span>
           </div>
@@ -166,7 +174,7 @@ export default function ProjectCard({
               className="p-2 hover:bg-foreground/5 rounded-full transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center"
               title="View on GitHub"
             >
-              <Github size={16} className="sm:size-18" />
+              <Github className="w-4 h-4 sm:w-5 sm:h-5" />
             </a>
             {homepage && (
               <a
@@ -176,7 +184,7 @@ export default function ProjectCard({
                 className="p-2 hover:bg-foreground/5 rounded-full transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center"
                 title="View live demo"
               >
-                <ExternalLink size={16} className="sm:size-18" />
+                <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
             )}
           </div>

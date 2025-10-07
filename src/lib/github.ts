@@ -21,23 +21,52 @@ export type SortOption = 'recent' | 'alphabetical' | 'stars' | 'created';
 
 export class GitHubService {
   private static readonly GITHUB_API_URL = 'https://api.github.com';
-  private static readonly USERNAME = 'DiwanMalla';
+  private static readonly USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'DiwanMalla';
+  private static readonly TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+
+  private static getHeaders() {
+    const headers: Record<string, string> = {
+      'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'DiwanMalla-Portfolio/1.0',
+    };
+
+    // Add authentication if token is available
+    if (this.TOKEN) {
+      headers['Authorization'] = `token ${this.TOKEN}`;
+      console.log('GitHub token found, using authenticated requests');
+    } else {
+      console.warn('No GitHub token found. Using unauthenticated requests (60/hour limit)');
+    }
+
+    return headers;
+  }
 
   static async fetchAllRepositories(): Promise<Repository[]> {
     try {
+      // Add timeout and better error handling
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
       const response = await fetch(
         `${this.GITHUB_API_URL}/users/${this.USERNAME}/repos?per_page=100&type=owner&sort=updated`,
         {
-          headers: {
-            'Accept': 'application/vnd.github.v3+json',
-          },
-          // Add cache revalidation for better performance
-          next: { revalidate: 3600 } // Cache for 1 hour
+          headers: this.getHeaders(),
+          signal: controller.signal,
+          // Increase cache time to reduce API calls
+          next: { revalidate: 7200 } // Cache for 2 hours
         }
       );
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        throw new Error(`GitHub API error: ${response.status}`);
+        if (response.status === 403) {
+          const errorData = await response.json().catch(() => ({}));
+          if (errorData.message && errorData.message.includes('rate limit')) {
+            throw new Error('GitHub API rate limit exceeded. Please add a GitHub token to increase the limit.');
+          }
+        }
+        throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
       }
 
       const repos: Repository[] = await response.json();
@@ -46,6 +75,17 @@ export class GitHubService {
       return repos.filter(repo => !repo.fork && !repo.private);
     } catch (error) {
       console.error('Error fetching repositories:', error);
+      
+      // Check if it's a network/fetch error
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          throw new Error('Request timed out. Please check your internet connection.');
+        }
+        if (error.message.includes('fetch')) {
+          throw new Error('Network error. Please check your internet connection and try again.');
+        }
+      }
+      
       throw error;
     }
   }
@@ -109,10 +149,8 @@ export class GitHubService {
           const response = await fetch(
             `${this.GITHUB_API_URL}/repos/${this.USERNAME}/${repoName}/contents/${fileName}`,
             {
-              headers: {
-                'Accept': 'application/vnd.github.v3+json',
-              },
-              next: { revalidate: 3600 } // Cache for 1 hour
+              headers: this.getHeaders(),
+              next: { revalidate: 7200 } // Cache for 2 hours
             }
           );
 
@@ -185,10 +223,8 @@ export class GitHubService {
           const response = await fetch(
             `${this.GITHUB_API_URL}/repos/${this.USERNAME}/${repoName}/contents/${fileName}`,
             {
-              headers: {
-                'Accept': 'application/vnd.github.v3+json',
-              },
-              next: { revalidate: 3600 }
+              headers: this.getHeaders(),
+              next: { revalidate: 7200 }
             }
           );
 
