@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ThemeToggle from "./ThemeToggle";
-import { Github, Linkedin, Globe, Menu, X } from "lucide-react";
+import { Github, Linkedin, Globe, Menu, X, FileText } from "lucide-react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,6 +25,14 @@ export default function Header() {
           <div className="flex items-center gap-4">
             {/* Desktop Social Links */}
             <div className="hidden md:flex items-center gap-2">
+              <a
+                href="#resume"
+                className="p-2 hover:bg-foreground/5 rounded-lg transition-colors flex items-center gap-2"
+                title="Resume Review"
+              >
+                <FileText size={18} />
+                <span className="hidden lg:inline text-sm">Resume</span>
+              </a>
               <a
                 href="https://github.com/DiwanMalla"
                 target="_blank"
@@ -75,6 +83,14 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden border-t border-foreground/10 py-4 animate-in slide-in-from-top-1 duration-200">
             <div className="flex flex-col gap-2">
+              <a
+                href="#resume"
+                className="flex items-center gap-3 p-3 hover:bg-foreground/5 rounded-lg transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <FileText size={18} />
+                <span className="text-sm font-medium">Resume Review</span>
+              </a>
               <a
                 href="https://github.com/DiwanMalla"
                 target="_blank"

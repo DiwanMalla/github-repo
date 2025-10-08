@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
+import Resume from "@/components/Resume";
 import Footer from "@/components/Footer";
 import { GitHubService, Repository } from "@/lib/github";
 
@@ -91,6 +92,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
+      <Resume />
       <Suspense fallback={<Projects repos={[]} isLoading={true} />}>
         <Projects repos={repositories.length > 0 ? repositories : fallbackProjects} />
       </Suspense>
