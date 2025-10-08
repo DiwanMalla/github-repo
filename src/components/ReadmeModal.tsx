@@ -133,7 +133,9 @@ export default function ReadmeModal({
                   <ul className="list-disc pl-6 mb-4 space-y-1">{children}</ul>
                 ),
                 ol: ({ children }) => (
-                  <ol className="list-decimal pl-6 mb-4 space-y-1">{children}</ol>
+                  <ol className="list-decimal pl-6 mb-4 space-y-1">
+                    {children}
+                  </ol>
                 ),
                 li: ({ children }) => (
                   <li className="text-muted-foreground">{children}</li>

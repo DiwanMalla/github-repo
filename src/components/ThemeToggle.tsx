@@ -21,11 +21,7 @@ export default function ThemeToggle() {
             className="flex items-center gap-2 px-3 py-2 rounded-lg border border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 transition-colors"
             title={`Current theme: ${theme} (${actualTheme})`}
           >
-            {actualTheme === "dark" ? (
-              <Moon size={18} />
-            ) : (
-              <Sun size={18} />
-            )}
+            {actualTheme === "dark" ? <Moon size={18} /> : <Sun size={18} />}
             <span className="text-sm">Theme</span>
           </button>
 
@@ -60,18 +56,14 @@ export default function ThemeToggle() {
       <div className="sm:hidden">
         <button
           onClick={() => {
-            const currentIndex = themes.findIndex(t => t.value === theme);
+            const currentIndex = themes.findIndex((t) => t.value === theme);
             const nextIndex = (currentIndex + 1) % themes.length;
             setTheme(themes[nextIndex].value);
           }}
           className="p-2 rounded-lg border border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 transition-colors"
           title={`Current: ${theme} (${actualTheme}) - Tap to cycle`}
         >
-          {actualTheme === "dark" ? (
-            <Moon size={18} />
-          ) : (
-            <Sun size={18} />
-          )}
+          {actualTheme === "dark" ? <Moon size={18} /> : <Sun size={18} />}
         </button>
       </div>
     </div>

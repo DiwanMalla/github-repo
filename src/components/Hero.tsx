@@ -27,10 +27,12 @@ export default function Hero() {
               Full-Stack Developer
             </p>
             <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
-              Passionate developer building innovative web applications, mobile solutions, and modern digital experiences. 
-              I specialize in React, Next.js, TypeScript, React Native, and cutting-edge technologies. 
-              From AI-powered applications to modern banking platforms and e-commerce solutions, 
-              I love creating products that make a difference.
+              Passionate developer building innovative web applications, mobile
+              solutions, and modern digital experiences. I specialize in React,
+              Next.js, TypeScript, React Native, and cutting-edge technologies.
+              From AI-powered applications to modern banking platforms and
+              e-commerce solutions, I love creating products that make a
+              difference.
             </p>
 
             {/* Social Links */}

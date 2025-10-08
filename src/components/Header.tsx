@@ -15,7 +15,9 @@ export default function Header() {
         <div className="flex items-center justify-between py-4">
           {/* Logo/Name */}
           <div className="flex items-center gap-3">
-            <h1 className="text-xl sm:text-2xl font-bold text-foreground">Diwan Malla</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground">
+              Diwan Malla
+            </h1>
             <span className="text-sm text-muted-foreground hidden sm:inline">
               Full-Stack Developer
             </span>

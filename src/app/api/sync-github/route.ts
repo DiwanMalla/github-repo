@@ -5,7 +5,7 @@ export async function POST() {
   try {
     // Revalidate the home page cache to fetch fresh data
     revalidatePath("/");
-    
+
     return NextResponse.json(
       { message: "Cache revalidated successfully" },
       { status: 200 }

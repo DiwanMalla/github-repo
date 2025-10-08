@@ -62,7 +62,7 @@ export default function ProjectCard({
     if (!description && !readmePreview) {
       await fetchReadmePreview();
     }
-    
+
     // Then fetch full content for modal
     if (!readmeContent) {
       setIsLoadingReadme(true);
@@ -86,7 +86,7 @@ export default function ProjectCard({
           <h3 className="text-lg sm:text-xl font-semibold mb-2 group-hover:text-foreground/80 transition-colors leading-tight">
             {name}
           </h3>
-                    <div className="text-muted-foreground text-sm line-clamp-2 min-h-[2.5rem]">
+          <div className="text-muted-foreground text-sm line-clamp-2 min-h-[2.5rem]">
             {description ? (
               <p className="leading-relaxed">{description}</p>
             ) : (
@@ -99,7 +99,9 @@ export default function ProjectCard({
                 ) : readmePreview ? (
                   <p className="italic leading-relaxed">{readmePreview}</p>
                 ) : (
-                  <p className="text-muted-foreground/60 text-xs">Click &quot;Read More&quot; to view project details</p>
+                  <p className="text-muted-foreground/60 text-xs">
+                    Click &quot;Read More&quot; to view project details
+                  </p>
                 )}
               </div>
             )}

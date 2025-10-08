@@ -7,24 +7,28 @@ A modern, responsive portfolio showcasing my projects and skills as a Full-Stack
 ## ✨ Features
 
 ### 🎨 **Modern Design**
+
 - **Responsive Layout** - Works perfectly on all devices
 - **Dark/Light Mode** - Smooth theme switching with system preference detection
 - **Glassmorphism Effects** - Modern UI with backdrop blur
 - **Smooth Animations** - Buttery smooth transitions and hover effects
 
 ### 🔥 **Dynamic Content**
+
 - **Live GitHub Integration** - Fetches real repositories from GitHub API
 - **Smart Descriptions** - Auto-fetches README content for projects without descriptions
 - **Interactive Modals** - Beautiful README viewer with markdown rendering
 - **Advanced Sorting** - Sort projects by recent, alphabetical, stars, or creation date
 
 ### 📱 **User Experience**
+
 - **Pagination System** - Handle large project lists (6/12/20/30 per page)
 - **Search & Filter** - Easy project discovery
 - **Loading States** - Skeleton loaders and smooth transitions
 - **Error Handling** - Graceful fallbacks for API failures
 
 ### ⚡ **Performance**
+
 - **Next.js 15** - Latest features with Turbopack
 - **Server Components** - Optimized rendering
 - **API Caching** - 1-hour cache for GitHub API calls
@@ -33,6 +37,7 @@ A modern, responsive portfolio showcasing my projects and skills as a Full-Stack
 ## 🛠️ Tech Stack
 
 ### **Frontend**
+
 - **Framework:** Next.js 15.5.4 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS v4
@@ -40,12 +45,14 @@ A modern, responsive portfolio showcasing my projects and skills as a Full-Stack
 - **Markdown:** React Markdown + Remark GFM
 
 ### **Features**
+
 - **GitHub API Integration**
 - **Theme System** (Light/Dark/System)
 - **Responsive Design**
 - **Server-Side Rendering**
 
 ### **Tools & Deployment**
+
 - **Package Manager:** npm
 - **Deployment:** Vercel
 - **Version Control:** Git
@@ -53,7 +60,8 @@ A modern, responsive portfolio showcasing my projects and skills as a Full-Stack
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 - Git
 
@@ -80,12 +88,14 @@ npm run dev
 To avoid API rate limiting, set up a GitHub Personal Access Token:
 
 1. **Create a Token:**
+
    - Go to [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
    - Click "Generate new token (classic)"
    - Select scopes: `public_repo` (for public repositories)
    - Copy the generated token
 
 2. **Configure Environment:**
+
    ```bash
    # In your .env.local file
    NEXT_PUBLIC_GITHUB_TOKEN=your_github_token_here
@@ -105,28 +115,30 @@ To avoid API rate limiting, set up a GitHub Personal Access Token:
 ## 📁 Project Structure
 
 ```
+
 diwan-portfolio/
 ├── src/
-│   ├── app/                 # Next.js app directory
-│   │   ├── globals.css      # Global styles with theme variables
-│   │   ├── layout.tsx       # Root layout with theme provider
-│   │   └── page.tsx         # Homepage
-│   ├── components/          # React components
-│   │   ├── ThemeProvider.tsx # Theme context and management
-│   │   ├── ThemeToggle.tsx   # Theme switcher component
-│   │   ├── Header.tsx        # Navigation header
-│   │   ├── Hero.tsx          # Hero section
-│   │   ├── Projects.tsx      # Projects grid with pagination
-│   │   ├── ProjectCard.tsx   # Individual project card
-│   │   ├── ReadmeModal.tsx   # README viewer modal
-│   │   └── Footer.tsx        # Footer component
-│   └── lib/
-│       └── github.ts         # GitHub API service
-├── public/                  # Static assets
-├── tailwind.config.js       # Tailwind configuration
-├── next.config.ts           # Next.js configuration
-└── package.json            # Dependencies and scripts
-```
+│ ├── app/ # Next.js app directory
+│ │ ├── globals.css # Global styles with theme variables
+│ │ ├── layout.tsx # Root layout with theme provider
+│ │ └── page.tsx # Homepage
+│ ├── components/ # React components
+│ │ ├── ThemeProvider.tsx # Theme context and management
+│ │ ├── ThemeToggle.tsx # Theme switcher component
+│ │ ├── Header.tsx # Navigation header
+│ │ ├── Hero.tsx # Hero section
+│ │ ├── Projects.tsx # Projects grid with pagination
+│ │ ├── ProjectCard.tsx # Individual project card
+│ │ ├── ReadmeModal.tsx # README viewer modal
+│ │ └── Footer.tsx # Footer component
+│ └── lib/
+│ └── github.ts # GitHub API service
+├── public/ # Static assets
+├── tailwind.config.js # Tailwind configuration
+├── next.config.ts # Next.js configuration
+└── package.json # Dependencies and scripts
+
+````
 
 ## 🎯 Key Components
 
@@ -174,14 +186,16 @@ npm run start        # Start production server
 # Linting & Formatting
 npm run lint         # Run ESLint
 npm run lint:fix     # Fix ESLint issues
-```
+````
 
 ## 🔧 Configuration
 
 ### **Environment Variables**
+
 No environment variables required! The portfolio uses public GitHub API endpoints.
 
 ### **Customization**
+
 1. **Update personal info** in `src/components/Hero.tsx`
 2. **Modify GitHub username** in `src/lib/github.ts`
 3. **Customize theme colors** in `src/app/globals.css`
@@ -252,4 +266,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ⭐ **If you found this portfolio helpful, please give it a star!** ⭐
 
-*Built with ❤️ using Next.js, TypeScript, and Tailwind CSS*
+_Built with ❤️ using Next.js, TypeScript, and Tailwind CSS_

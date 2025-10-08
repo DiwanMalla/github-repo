@@ -30,10 +30,10 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 640);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const handleSortChange = (newSortBy: SortOption) => {
@@ -95,11 +95,16 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
     }
   };
   return (
-    <section id="projects" className="py-12 sm:py-16 px-4 bg-muted/30 dark:bg-muted/10">
+    <section
+      id="projects"
+      className="py-12 sm:py-16 px-4 bg-muted/30 dark:bg-muted/10"
+    >
       <div className="container max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">All Projects</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+            All Projects
+          </h2>
           <p className="text-muted-foreground text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed">
             A complete showcase of my work spanning web applications, mobile
             apps, AI solutions, and e-commerce platforms. Each project
@@ -122,7 +127,9 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
                 }`}
               >
                 {getSortIcon(option)}
-                <span className="whitespace-nowrap">{getSortLabel(option)}</span>
+                <span className="whitespace-nowrap">
+                  {getSortLabel(option)}
+                </span>
               </button>
             ))}
           </div>
@@ -135,11 +142,17 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
           {/* Results Counter and Per-Page Selector */}
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 mt-4 sm:mt-6">
             <p className="text-muted-foreground text-xs sm:text-sm text-center sm:text-left">
-              <span className="block sm:inline">Showing {startIndex + 1}-{Math.min(endIndex, sortedRepos.length)} of {sortedRepos.length} repositories</span>
+              <span className="block sm:inline">
+                Showing {startIndex + 1}-
+                {Math.min(endIndex, sortedRepos.length)} of {sortedRepos.length}{" "}
+                repositories
+              </span>
               <span className="hidden sm:inline"> • </span>
-              <span className="block sm:inline">Sorted by {getSortLabel(sortBy).toLowerCase()}</span>
+              <span className="block sm:inline">
+                Sorted by {getSortLabel(sortBy).toLowerCase()}
+              </span>
             </p>
-            
+
             <div className="flex items-center gap-2 text-xs sm:text-sm">
               <span className="text-muted-foreground">Show:</span>
               <div className="flex gap-1 sm:gap-2">
@@ -149,8 +162,8 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
                     onClick={() => handleItemsPerPageChange(count)}
                     className={`px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full border transition-colors min-w-[36px] sm:min-w-[40px] ${
                       itemsPerPage === count
-                        ? 'bg-foreground text-background border-foreground'
-                        : 'border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 active:bg-foreground/10'
+                        ? "bg-foreground text-background border-foreground"
+                        : "border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 active:bg-foreground/10"
                     }`}
                   >
                     {count}
@@ -196,7 +209,7 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
                 <div className="sm:hidden text-xs text-muted-foreground mb-2">
                   Page {currentPage} of {totalPages}
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   {/* Previous Button */}
                   <button
@@ -212,33 +225,41 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
                   {/* Page Numbers - Simplified for mobile */}
                   <div className="flex gap-1">
                     {Array.from({ length: totalPages }, (_, i) => i + 1)
-                      .filter(page => {
+                      .filter((page) => {
                         // On mobile, show fewer pages
                         if (isMobile) {
-                          return page === 1 || 
-                                 page === totalPages || 
-                                 page === currentPage ||
-                                 (Math.abs(page - currentPage) === 1 && totalPages <= 7);
+                          return (
+                            page === 1 ||
+                            page === totalPages ||
+                            page === currentPage ||
+                            (Math.abs(page - currentPage) === 1 &&
+                              totalPages <= 7)
+                          );
                         }
                         // Desktop: show more pages
-                        return page === 1 || 
-                               page === totalPages || 
-                               Math.abs(page - currentPage) <= 1;
+                        return (
+                          page === 1 ||
+                          page === totalPages ||
+                          Math.abs(page - currentPage) <= 1
+                        );
                       })
                       .map((page, index, array) => {
-                        const showEllipsis = index > 0 && page - array[index - 1] > 1;
-                        
+                        const showEllipsis =
+                          index > 0 && page - array[index - 1] > 1;
+
                         return (
                           <div key={page} className="flex items-center gap-1">
                             {showEllipsis && (
-                              <span className="px-1 sm:px-2 text-muted-foreground text-xs sm:text-sm">...</span>
+                              <span className="px-1 sm:px-2 text-muted-foreground text-xs sm:text-sm">
+                                ...
+                              </span>
                             )}
                             <button
                               onClick={() => handlePageChange(page)}
                               className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg border transition-colors text-xs sm:text-sm font-medium ${
                                 currentPage === page
-                                  ? 'bg-foreground text-background border-foreground'
-                                  : 'border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 active:bg-foreground/10'
+                                  ? "bg-foreground text-background border-foreground"
+                                  : "border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 active:bg-foreground/10"
                               }`}
                             >
                               {page}

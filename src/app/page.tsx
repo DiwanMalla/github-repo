@@ -8,21 +8,34 @@ async function getRepositories() {
   try {
     return await GitHubService.fetchAllRepositories();
   } catch (error) {
-    console.error('Failed to fetch repositories:', error);
-    
+    console.error("Failed to fetch repositories:", error);
+
     // Log specific error messages
     if (error instanceof Error) {
-      if (error.message.includes('rate limit')) {
-        console.warn('GitHub API rate limit exceeded. Using fallback projects. Consider adding a GitHub token to .env.local for higher rate limits.');
-      } else if (error.message.includes('Network error') || error.message.includes('fetch')) {
-        console.warn('Network error while fetching GitHub repositories. Using fallback projects. Please check your internet connection.');
-      } else if (error.message.includes('timed out')) {
-        console.warn('GitHub API request timed out. Using fallback projects. The API might be temporarily unavailable.');
+      if (error.message.includes("rate limit")) {
+        console.warn(
+          "GitHub API rate limit exceeded. Using fallback projects. Consider adding a GitHub token to .env.local for higher rate limits."
+        );
+      } else if (
+        error.message.includes("Network error") ||
+        error.message.includes("fetch")
+      ) {
+        console.warn(
+          "Network error while fetching GitHub repositories. Using fallback projects. Please check your internet connection."
+        );
+      } else if (error.message.includes("timed out")) {
+        console.warn(
+          "GitHub API request timed out. Using fallback projects. The API might be temporarily unavailable."
+        );
       } else {
-        console.warn('GitHub API error:', error.message, 'Using fallback projects.');
+        console.warn(
+          "GitHub API error:",
+          error.message,
+          "Using fallback projects."
+        );
       }
     }
-    
+
     return [];
   }
 }
@@ -32,7 +45,8 @@ const fallbackProjects: Repository[] = [
   {
     id: 1,
     name: "aurora-alarm-clock",
-    description: "A next-generation React Native alarm clock app with smart wake-up features, beautiful UI, and wellness integrations",
+    description:
+      "A next-generation React Native alarm clock app with smart wake-up features, beautiful UI, and wellness integrations",
     html_url: "https://github.com/DiwanMalla/aurora-alarm-clock",
     homepage: null,
     language: "TypeScript",
@@ -50,7 +64,8 @@ const fallbackProjects: Repository[] = [
   {
     id: 2,
     name: "BrainiX",
-    description: "AI-powered brain training application with interactive games and cognitive exercises",
+    description:
+      "AI-powered brain training application with interactive games and cognitive exercises",
     html_url: "https://github.com/DiwanMalla/BrainiX",
     homepage: "https://braini-x-one.vercel.app",
     language: "TypeScript",
@@ -68,7 +83,8 @@ const fallbackProjects: Repository[] = [
   {
     id: 3,
     name: "horizon_banking",
-    description: "Horizon is a modern banking platform for everyone with secure transactions and modern UI",
+    description:
+      "Horizon is a modern banking platform for everyone with secure transactions and modern UI",
     html_url: "https://github.com/DiwanMalla/horizon_banking",
     homepage: "https://horizon-banking-sooty.vercel.app",
     language: "TypeScript",
@@ -87,12 +103,14 @@ const fallbackProjects: Repository[] = [
 
 export default async function Home() {
   const repositories = await getRepositories();
-  
+
   return (
     <>
       <Hero />
       <Suspense fallback={<Projects repos={[]} isLoading={true} />}>
-        <Projects repos={repositories.length > 0 ? repositories : fallbackProjects} />
+        <Projects
+          repos={repositories.length > 0 ? repositories : fallbackProjects}
+        />
       </Suspense>
       <Footer />
     </>

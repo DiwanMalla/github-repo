@@ -29,7 +29,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       let effectiveTheme: "light" | "dark" = "light";
 
       if (theme === "system") {
-        effectiveTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        effectiveTheme = window.matchMedia("(prefers-color-scheme: dark)")
+          .matches
           ? "dark"
           : "light";
       } else {
@@ -57,7 +58,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (theme === "system") {
       const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
       const handleChange = () => applyTheme();
-      
+
       mediaQuery.addEventListener("change", handleChange);
       return () => mediaQuery.removeEventListener("change", handleChange);
     }

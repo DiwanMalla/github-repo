@@ -36,10 +36,24 @@ body {
 }
 
 /* Update CSS custom properties for better dark mode support */
-.bg-background { background-color: rgb(var(--background)); }
-.text-foreground { color: rgb(var(--foreground)); }
-.bg-muted { background-color: rgb(var(--muted)); }
-.text-muted-foreground { color: rgb(var(--muted-foreground)); }
-.border-border { border-color: rgb(var(--border)); }
-.bg-primary { background-color: rgb(var(--primary)); }
-.text-primary-foreground { color: rgb(var(--primary-foreground)); }
+.bg-background {
+  background-color: rgb(var(--background));
+}
+.text-foreground {
+  color: rgb(var(--foreground));
+}
+.bg-muted {
+  background-color: rgb(var(--muted));
+}
+.text-muted-foreground {
+  color: rgb(var(--muted-foreground));
+}
+.border-border {
+  border-color: rgb(var(--border));
+}
+.bg-primary {
+  background-color: rgb(var(--primary));
+}
+.text-primary-foreground {
+  color: rgb(var(--primary-foreground));
+}
