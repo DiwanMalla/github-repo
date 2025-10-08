@@ -10,6 +10,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import ProjectCard from "./ProjectCard";
+import SyncButton from "./SyncButton";
 import { Repository, SortOption, GitHubService } from "../lib/github";
 
 interface ProjectsProps {
@@ -124,6 +125,11 @@ export default function Projects({ repos, isLoading = false }: ProjectsProps) {
                 <span className="whitespace-nowrap">{getSortLabel(option)}</span>
               </button>
             ))}
+          </div>
+
+          {/* Sync Button */}
+          <div className="mt-4">
+            <SyncButton />
           </div>
 
           {/* Results Counter and Per-Page Selector */}
